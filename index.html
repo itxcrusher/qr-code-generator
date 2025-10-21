@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- QR Code Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        #qrcode-container canvas {
+            display: block;
+            margin: auto;
+            border-radius: 0.5rem;
+        }
+        #qrcode-container img {
+            display: block;
+            margin: auto;
+            border-radius: 0.5rem;
+            border: 4px solid white;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-200 flex flex-col items-center justify-center min-h-screen p-4 antialiased">
+
+    <div class="w-full max-w-md bg-slate-800 rounded-xl shadow-2xl border border-slate-700">
+        <header class="text-center p-6 border-b border-slate-700">
+            <h1 class="text-2xl font-bold text-white">QR Code Generator</h1>
+            <p class="text-slate-400 mt-1">Enter text or a URL to generate a QR code.</p>
+        </header>
+
+        <main class="p-6 md:p-8">
+            <!-- QR Code Display -->
+            <div id="qrcode-wrapper" class="w-full aspect-square bg-slate-700 rounded-lg flex items-center justify-center mb-6 p-4 border border-slate-600">
+                <div id="qrcode-container" class="p-2 bg-white rounded-lg shadow-inner"></div>
+            </div>
+
+            <!-- Input -->
+            <div class="mb-4">
+                <label for="text-input" class="block text-sm font-medium text-slate-400 mb-1">Text or URL</label>
+                <input type="text" id="text-input" placeholder="https://example.com" class="w-full bg-slate-900 text-white rounded-md p-3 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+            </div>
+            
+            <!-- Actions -->
+             <div class="space-y-3">
+                <button id="generate-btn" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-4 rounded-lg transition-colors">
+                    Generate QR Code
+                </button>
+                 <button id="download-btn" class="w-full bg-slate-600 hover:bg-slate-500 text-white font-bold py-3 px-4 rounded-lg transition-colors opacity-50 cursor-not-allowed" disabled>
+                    Download PNG
+                </button>
+            </div>
+             <p id="error-msg" class="text-sm text-red-400 h-4 text-center mt-3"></p>
+        </main>
+    </div>
+
+    <script>
+        const textInput = document.getElementById('text-input');
+        const generateBtn = document.getElementById('generate-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const qrcodeContainer = document.getElementById('qrcode-container');
+        const errorMsg = document.getElementById('error-msg');
+        let qrcode = null;
+
+        function generateQRCode() {
+            const text = textInput.value.trim();
+            errorMsg.textContent = '';
+            
+            if (!text) {
+                errorMsg.textContent = 'Please enter text or a URL.';
+                return;
+            }
+
+            // Clear previous QR code
+            qrcodeContainer.innerHTML = '';
+
+            // Create new QR code
+            qrcode = new QRCode(qrcodeContainer, {
+                text: text,
+                width: 256,
+                height: 256,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+            
+            // Enable download button
+            downloadBtn.disabled = false;
+            downloadBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            downloadBtn.classList.add('opacity-100');
+        }
+
+        function downloadQRCode() {
+            const canvas = qrcodeContainer.querySelector('canvas');
+            if (canvas) {
+                const link = document.createElement('a');
+                link.download = 'qrcode.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            } else {
+                 const img = qrcodeContainer.querySelector('img');
+                 if(img){
+                    const link = document.createElement('a');
+                    link.download = 'qrcode.png';
+                    link.href = img.src;
+                    link.click();
+                 }
+            }
+        }
+
+        generateBtn.addEventListener('click', generateQRCode);
+        textInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                generateQRCode();
+            }
+        });
+        downloadBtn.addEventListener('click', downloadQRCode);
+
+        // Generate a default QR code on load
+        textInput.value = 'https://itxcrusher.github.io/';
+        generateQRCode();
+    </script>
+</body>
+</html>
+
