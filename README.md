@@ -25,4 +25,4 @@ A fast and simple web tool to generate and download QR codes from any text or UR
 ## **Live Tool**
 
 You can access the live tool here:
-👉 [**QR Code Generator**](https://itxcrusher.github.io/qr-code-generator/)
+👉 [**QR Code Generator**](https://crusher-labs.github.io/qr-code-generator/)
