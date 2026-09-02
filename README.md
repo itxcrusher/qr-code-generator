@@ -1,28 +1,25 @@
-# **QR Code Generator**
+# QR Code Generator
 
-A fast and simple web tool to generate and download QR codes from any text or URL.
+Generate a QR code for a URL, text, Wi-Fi network (WIFI: format), email, phone number or SMS on an airline boarding pass: the code prints where the barcode goes, the facts about it (version as the flight, error-correction level as the gate, module count as the seat, byte count as boarding) print beside it, and the stub tears off to download PNG or SVG. Error correction L/M/Q/H, size, quiet zone and colours. Encoding by the vendored MIT qrcode-generator (qrcode.js, Kazuhiko Arase), drawn as SVG and canvas here. Nothing uploaded.
 
----
+Live: <https://crusher-labs.github.io/qr-code-generator/>
 
-## **Features**
+## The world: Boarding pass
 
-* **Instant Generation:** Create QR codes in real-time right in your browser.
-* **Text & URL Support:** Works with any string of text, making it perfect for links, contact info, Wi-Fi passwords, and more.
-* **Downloadable:** Save the generated QR code as a high-quality PNG image with a single click.
-* **Clean & Responsive:** A minimalist interface that's easy to use on any device.
+This tool is a **world page** (crusher-labs standard since 2026-09-02): the page is a committed physical object from the tool's own world, with its own CSS, fonts and mode. It does not load `crusher-ui-kit` and has no theme switcher. The brief for this world lives in the workspace atlas (`x:/crusher-labs/docs/context/tools-theme-atlas.md`); change the atlas before changing the world.
 
----
+## Privacy
 
-## **How to Use**
+This tool runs entirely in your browser. There is no server. No data is uploaded, no telemetry, no analytics. The only network requests fired are the page-load fetches for Google Fonts; your inputs and outputs never leave the tab. The "Suggest an improvement" form posts to Web3Forms only when you submit it.
 
-1. **Open the Tool:** Navigate to the live URL.
-2. **Enter Your Data:** Type or paste the text or URL you want to encode into the input field.
-3. **Generate:** Click the “Generate QR Code” button.
-4. **Download:** Once the QR code appears, click the “Download PNG” button to save it.
+## Contract
 
----
+Validated by `tools-hub/scripts/check-static.mjs` (world-page contract: SEO block, CSP, feedback form, hub link, prose + FAQ, no kit pins). Run `npm run check:static` from `repos/tools-hub` before committing.
 
-## **Live Tool**
+## Development
 
-You can access the live tool here:
-👉 [**QR Code Generator**](https://crusher-labs.github.io/qr-code-generator/)
+Open `index.html` directly in a browser. No build, no dependencies. Verify at 1440 and 390 via Playwright `setViewportSize` before shipping.
+
+## License
+
+MIT.
